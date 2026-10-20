@@ -1,0 +1,129 @@
+{
+  "entities": {
+    "Exercise": {
+      "title": "Exercise",
+      "description": "Biomechanical exercise specification and school PE standards",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "categoryName": { "type": "string" },
+        "difficulty": { "type": "string" },
+        "targetJoint": { "type": "string" },
+        "jointKey": { "type": "string" },
+        "targetAngle": { "type": "number" },
+        "minAcceptableAngle": { "type": "number" },
+        "maxAcceptableAngle": { "type": "number" },
+        "startAngle": { "type": "number" },
+        "unit": { "type": "string" },
+        "normativeGrade5": { "type": "number" },
+        "normativeGrade4": { "type": "number" },
+        "normativeGrade3": { "type": "number" },
+        "description": { "type": "string" },
+        "targetMuscleGroups": { "type": "array" },
+        "videoUrl": { "type": "string" },
+        "modifications": { "type": "array" }
+      },
+      "required": ["id", "name", "category", "targetJoint", "jointKey", "targetAngle"]
+    },
+    "Classroom": {
+      "title": "Classroom",
+      "description": "Physical education class group managed by teacher",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "code": { "type": "string", "maxLength": 32 },
+        "name": { "type": "string", "maxLength": 100 },
+        "teacherName": { "type": "string", "maxLength": 100 },
+        "createdAt": { "type": "string" },
+        "students": { "type": "array" }
+      },
+      "required": ["id", "code", "name"]
+    },
+    "HomeworkAssignment": {
+      "title": "HomeworkAssignment",
+      "description": "Assigned PE homework for students in a class",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "classCode": { "type": "string", "maxLength": 32 },
+        "exerciseId": { "type": "string" },
+        "exerciseName": { "type": "string" },
+        "targetReps": { "type": "number" },
+        "minAccuracy": { "type": "number" },
+        "deadline": { "type": "string" },
+        "instructions": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "classCode", "exerciseName", "targetReps"]
+    },
+    "HomeworkSubmission": {
+      "title": "HomeworkSubmission",
+      "description": "Completed student homework recorded in teacher journal",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "assignmentId": { "type": "string" },
+        "classCode": { "type": "string", "maxLength": 32 },
+        "studentName": { "type": "string", "maxLength": 100 },
+        "exerciseName": { "type": "string" },
+        "completedReps": { "type": "number" },
+        "validReps": { "type": "number" },
+        "targetReps": { "type": "number" },
+        "accuracyPercent": { "type": "number" },
+        "isPassed": { "type": "boolean" },
+        "grade": { "type": "number" },
+        "averageAmplitude": { "type": "number" },
+        "tempoSpeed": { "type": "number" },
+        "aiVerdict": { "type": "string" },
+        "submittedAt": { "type": "string" }
+      },
+      "required": ["id", "classCode", "studentName", "validReps", "grade"]
+    },
+    "WorkoutLog": {
+      "title": "WorkoutLog",
+      "description": "Individual workout session with biomechanics telemetry and AI feedback",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "date": { "type": "string" },
+        "exerciseId": { "type": "string" },
+        "exerciseName": { "type": "string" },
+        "categoryName": { "type": "string" },
+        "averageAmplitude": { "type": "number" },
+        "targetAmplitude": { "type": "number" },
+        "tempoSpeed": { "type": "number" },
+        "totalReps": { "type": "number" },
+        "validReps": { "type": "number" },
+        "symmetryScore": { "type": "number" },
+        "durationSeconds": { "type": "number" },
+        "overallVerdict": { "type": "string" },
+        "grade": { "type": "number" }
+      },
+      "required": ["id", "exerciseName", "totalReps", "validReps", "grade"]
+    }
+  },
+  "firestore": {
+    "/exercises/{exerciseId}": {
+      "schema": "Exercise",
+      "description": "Global catalog of physical education exercises"
+    },
+    "/classes/{classId}": {
+      "schema": "Classroom",
+      "description": "Teacher classes and rosters"
+    },
+    "/assignments/{assignmentId}": {
+      "schema": "HomeworkAssignment",
+      "description": "Assigned exercises with targets and deadlines"
+    },
+    "/submissions/{submissionId}": {
+      "schema": "HomeworkSubmission",
+      "description": "Student homework submissions for grading"
+    },
+    "/workouts/{workoutId}": {
+      "schema": "WorkoutLog",
+      "description": "Recorded workout sessions and telemetry"
+    }
+  }
+}
